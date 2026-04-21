@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MockDoctor Presentation</title>
+    <meta
+      name="description"
+      content="MockDoctor compares ReadyAPI REST virtual services with OpenAPI and JSON contracts so stale mocks stop slipping through CI."
+    />
+    <meta name="theme-color" content="#0c1224" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Newsreader:opsz,wght@6..72,400;600;700&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="module" src="./app.js"></script>
+  </head>
+  <body>
+    <div class="noise"></div>
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="orb orb-c"></div>
+
+    <header class="topbar">
+      <a class="brand" href="#intro">
+        <span class="brand-mark">MD</span>
+        <span>MockDoctor</span>
+      </a>
+      <nav class="topnav">
+        <a href="#problem">Problem</a>
+        <a href="#checks">Checks</a>
+        <a href="#demo">Demo</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#scope">Scope</a>
+      </nav>
+      <a class="repo-link" href="https://github.com/kumarsourav12/MockDoctor">GitHub</a>
+    </header>
+
+    <main class="page">
+      <section class="hero reveal" id="intro">
+        <div class="hero-copy">
+          <div class="eyebrow">Presentation site for MockDoctor v0.1.0</div>
+          <h1>
+            Stop shipping
+            <span class="headline-accent">false-green</span>
+            tests.
+          </h1>
+          <p class="lede">
+            MockDoctor compares ReadyAPI REST virtual-service files with an OpenAPI spec or a JSON
+            contract and shows exactly where the mock drift starts. It catches stale operations,
+            wrong status codes, content-type drift, invalid JSON, and schema mismatches before that
+            fake green build buys you a real outage.
+          </p>
+
+          <div class="hero-actions">
+            <a class="button primary" href="#demo">See the drift demo</a>
+            <a class="button secondary" href="https://github.com/kumarsourav12/MockDoctor"
+              >Open the repo</a
+            >
+            <button
+              class="button ghost"
+              type="button"
+              data-copy-text="npx mockdoctor compare --readyapi ./readyapi-project.xml --openapi ./openapi.yaml"
+            >
+              Copy quick start
+            </button>
+          </div>
+
+          <div class="copy-feedback" aria-live="polite"></div>
+
+          <div class="stat-grid">
+            <article class="stat-card">
+              <span class="stat-label">Inputs</span>
+              <strong>ReadyAPI REST</strong>
+              <p>Project XML or extracted service directories.</p>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">Contracts</span>
+              <strong>OpenAPI + JSON</strong>
+              <p>Dereferenced OpenAPI or repo-friendly contract JSON.</p>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">Output</span>
+              <strong>Text, JSON, HTML</strong>
+              <p>Shareable drift artifacts without custom glue code.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="hero-stage">
+          <div class="window-card">
+            <div class="window-top">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="window-label">Drift example from the repo</div>
+            <pre class="terminal-block"><code>$ mockdoctor compare \
+  --readyapi ./orders-project-schema-drift.xml \
+  --openapi ./orders-openapi.yaml
+
+MockDoctor
+ReadyAPI: ./orders-project-schema-drift.xml
+Contract: ./orders-openapi.yaml (openapi)
+Services checked: 1
+Operations checked: 3
+Responses checked: 4
+Issues found: 1
+
+GET /api/orders/{id} | service=OrdersService
+  - [response-body-schema-mismatch]
+    ReadyAPI response OK Response does not match the contract schema.
+      $.amount: must be integer</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="problem">
+        <div class="section-heading">
+          <div class="eyebrow">The problem</div>
+          <h2>Your mocks keep passing after reality changed.</h2>
+          <p>
+            Teams commit mock services because they make UI, QA, and contract work faster. Then the
+            API changes, the mock does not, and the test suite stays green for the wrong reasons.
+            MockDoctor exists to catch that drift in the committed files before anyone trusts the
+            result.
+          </p>
+        </div>
+
+        <div class="problem-grid">
+          <article class="issue-card">
+            <h3>False confidence</h3>
+            <p>
+              The API drops or renames a field, but the mock still returns the old shape. Tests pass
+              against a response that production never sends anymore.
+            </p>
+          </article>
+          <article class="issue-card">
+            <h3>Slow review cycles</h3>
+            <p>
+              Reviewers can spot code changes. They usually cannot spot that a `restMockAction` or a
+              stored response body quietly drifted away from the current contract.
+            </p>
+          </article>
+          <article class="issue-card">
+            <h3>Hidden fixture debt</h3>
+            <p>
+              Schema mismatches, invalid JSON, and stale content types pile up over time until a
+              later change breaks the wrong layer and nobody trusts the failure.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section reveal" id="checks">
+        <div class="section-heading">
+          <div class="eyebrow">What it checks</div>
+          <h2>File-to-contract comparison with useful failure modes.</h2>
+          <p>
+            MockDoctor normalizes both sides to the same operation model, then compares what matters
+            in practice: paths, response codes, content types, and JSON body shape.
+          </p>
+        </div>
+
+        <div class="check-grid">
+          <article class="check-card">
+            <span class="check-code">operation-missing-in-contract</span>
+            <p>ReadyAPI contains an operation that is not in the contract.</p>
+          </article>
+          <article class="check-card">
+            <span class="check-code">operation-missing-in-readyapi</span>
+            <p>The contract expects an operation that the mock service does not expose.</p>
+          </article>
+          <article class="check-card">
+            <span class="check-code">response-missing-in-contract</span>
+            <p>ReadyAPI returns a status code that the contract does not describe.</p>
+          </article>
+          <article class="check-card">
+            <span class="check-code">response-missing-in-readyapi</span>
+            <p>The contract defines a concrete status code the mock does not provide.</p>
+          </article>
+          <article class="check-card">
+            <span class="check-code">content-type-mismatch</span>
+            <p>The response shape might be fine, but the declared media type is wrong.</p>
+          </article>
+          <article class="check-card">
+            <span class="check-code">response-body-schema-mismatch</span>
+            <p>The JSON body parses, but it no longer matches the contract schema.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section reveal" id="demo">
+        <div class="section-heading">
+          <div class="eyebrow">Interactive demo</div>
+          <h2>Flip between real drift cases.</h2>
+          <p>
+            These are the same categories covered by the checked-in fixtures in the repository. The
+            presentation swaps the example so you can explain the tool without screen-sharing a
+            terminal.
+          </p>
+        </div>
+
+        <div class="demo-switcher" role="tablist" aria-label="Drift cases">
+          <button class="demo-pill is-active" type="button" data-demo="schema">Schema mismatch</button>
+          <button class="demo-pill" type="button" data-demo="response">Missing response</button>
+          <button class="demo-pill" type="button" data-demo="content">Content-type drift</button>
+        </div>
+
+        <div class="demo-layout">
+          <article class="demo-note">
+            <div class="demo-kicker" id="demo-kicker">Most common catch</div>
+            <h3 id="demo-title">The body parses, but the types drifted.</h3>
+            <p id="demo-description">
+              The contract says `amount` is an integer. The ReadyAPI response still returns it as a
+              string. That is the kind of bug that creates a false-green UI test fast.
+            </p>
+            <ul class="demo-bullets" id="demo-bullets">
+              <li>Compares `GET /api/orders/{id}` by normalized method and path.</li>
+              <li>Loads the OpenAPI schema for the `200` response.</li>
+              <li>Validates the stored mock body with Ajv and reports the failing path.</li>
+            </ul>
+          </article>
+
+          <div class="window-card demo-output-card">
+            <div class="window-top">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="window-label">MockDoctor output</div>
+            <pre class="terminal-block" id="demo-output"><code></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="workflow">
+        <div class="section-heading">
+          <div class="eyebrow">How it works</div>
+          <h2>A small pipeline with one job: prove the mock still matches the contract.</h2>
+          <p>
+            The code stays readable because parsing, normalization, comparison, and reporting live in
+            separate modules. That also keeps the site honest: it is presenting the actual pipeline,
+            not a marketing sketch.
+          </p>
+        </div>
+
+        <div class="workflow-grid">
+          <article class="workflow-step">
+            <span class="step-number">01</span>
+            <h3>Load ReadyAPI files</h3>
+            <p>
+              Read a project XML file or an extracted REST service directory. Pull out services,
+              operations, responses, media types, and JSON bodies when present.
+            </p>
+          </article>
+          <article class="workflow-step">
+            <span class="step-number">02</span>
+            <h3>Load the contract</h3>
+            <p>
+              Dereference OpenAPI or read a JSON contract. Normalize each operation to `METHOD +
+              path` and preserve source paths for reporting.
+            </p>
+          </article>
+          <article class="workflow-step">
+            <span class="step-number">03</span>
+            <h3>Compare responses</h3>
+            <p>
+              Match status codes, wildcard statuses, content types, and JSON schemas. Record
+              mismatch codes that are stable enough for CI and human review.
+            </p>
+          </article>
+          <article class="workflow-step">
+            <span class="step-number">04</span>
+            <h3>Render the result</h3>
+            <p>
+              Print a text or JSON summary to stdout and optionally write an HTML drift report when
+              issues are found.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section reveal" id="scope">
+        <div class="scope-layout">
+          <article class="scope-card positive">
+            <div class="eyebrow">What v0.1 does well</div>
+            <h2>Ship the narrow tool people can actually install.</h2>
+            <ul>
+              <li>ReadyAPI REST project XML and extracted service directories</li>
+              <li>OpenAPI and repo-friendly JSON contracts</li>
+              <li>Text, JSON, and HTML output</li>
+              <li>CI-friendly exit codes and checked-in smoke examples</li>
+            </ul>
+          </article>
+
+          <article class="scope-card neutral">
+            <div class="eyebrow">Current limits</div>
+            <h2>No fake promises in the release copy.</h2>
+            <ul>
+              <li>REST only in `v0.1.0`</li>
+              <li>Non-JSON bodies are compared by status code and media type only</li>
+              <li>No dispatch-script execution or runtime virtualization</li>
+              <li>No extra route-template inference beyond normalized literal paths</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section reveal" id="cta">
+        <div class="cta-card">
+          <div>
+            <div class="eyebrow">Ready to show it</div>
+            <h2>Use the site as a pitch deck, then hand people the repo.</h2>
+            <p>
+              The source for this presentation lives in `/site`, and the repo includes a GitHub Pages
+              workflow so the presentation can publish from `main` without touching the CLI build.
+            </p>
+          </div>
+
+          <div class="cta-actions">
+            <a class="button primary" href="https://github.com/kumarsourav12/MockDoctor"
+              >View the repository</a
+            >
+            <a class="button secondary" href="https://kumarsourav12.github.io/MockDoctor/"
+              >Open the Pages URL</a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>MockDoctor presentation site. Built as a static GitHub Pages deployment from the repository.</p>
+    </footer>
+  </body>
+</html>
