@@ -5,7 +5,7 @@ MockDoctor compares ReadyAPI REST virtual-service files with an OpenAPI spec or 
 Start here:
 
 - Demo site: [kumarsourav12.github.io/MockDoctor](https://kumarsourav12.github.io/MockDoctor/)
-- Release notes draft: [docs/launch/v0.1.0-release.md](./docs/launch/v0.1.0-release.md)
+- Latest release: [v0.1.0](https://github.com/kumarsourav12/MockDoctor/releases/tag/v0.1.0)
 - Launch article draft: [docs/articles/why-readyapi-mocks-drift.md](./docs/articles/why-readyapi-mocks-drift.md)
 - Distribution plan: [docs/launch/distribution-plan.md](./docs/launch/distribution-plan.md)
 
