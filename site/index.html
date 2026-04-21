@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>MockDoctor Presentation</title>
+    <title>MockDoctor</title>
     <meta
       name="description"
       content="MockDoctor compares ReadyAPI REST virtual services with OpenAPI and JSON contracts so stale mocks stop slipping through CI."
@@ -42,7 +42,7 @@
     <main class="page">
       <section class="hero reveal" id="intro">
         <div class="hero-copy">
-          <div class="eyebrow">Presentation site for MockDoctor v0.1.0</div>
+          <div class="eyebrow">ReadyAPI mock drift detection</div>
           <h1>
             Stop shipping
             <span class="headline-accent">false-green</span>
@@ -63,7 +63,7 @@
             <a
               class="button secondary"
               href="https://github.com/kumarsourav12/MockDoctor/releases/tag/v0.1.0"
-              >Read v0.1.0 notes</a
+              >Read the v0.1.0 release</a
             >
             <button
               class="button ghost"
@@ -127,11 +127,12 @@ GET /api/orders/{id} | service=OrdersService
 
       <section class="section reveal" id="start">
         <div class="section-heading">
-          <div class="eyebrow">Get started</div>
-          <h2>Show the tool fast, then give people a clean next step.</h2>
+          <div class="eyebrow">Try it</div>
+          <h2>Start with a real command, then go deeper if you need to.</h2>
           <p>
-            A good launch page should do three jobs in under a minute: explain the problem, prove
-            the tool works, and hand people the shortest realistic path to trying it.
+            If you want to see MockDoctor work, run the checked-in example first. If you want more
+            context before installing anything, jump to the release notes, the technical article,
+            or the configuration docs.
           </p>
         </div>
 
@@ -148,29 +149,29 @@ node ./dist/cli.js compare --config ./examples/openapi/mockdoctor.config.json</c
           </article>
 
           <article class="start-card">
-            <div class="demo-kicker">Read next</div>
-            <h3>Pick the link that matches intent.</h3>
+            <div class="demo-kicker">Read more</div>
+            <h3>Choose the next stop.</h3>
             <div class="link-stack">
               <a
                 class="resource-link"
                 href="https://github.com/kumarsourav12/MockDoctor/releases/tag/v0.1.0"
               >
                 <strong>Releases</strong>
-                <span>Use when someone wants versioned changes and install notes.</span>
+                <span>Versioned changes, scope, and install notes.</span>
               </a>
               <a
                 class="resource-link"
                 href="https://github.com/kumarsourav12/MockDoctor/blob/main/docs/articles/why-readyapi-mocks-drift.md"
               >
-                <strong>Launch article</strong>
-                <span>Use when someone needs the problem explained before they install.</span>
+                <strong>Technical article</strong>
+                <span>Why stale mocks create false-green tests and how to catch the drift.</span>
               </a>
               <a
                 class="resource-link"
                 href="https://github.com/kumarsourav12/MockDoctor/blob/main/docs/configuration.md"
               >
                 <strong>Configuration docs</strong>
-                <span>Use when someone already wants flags, config shape, and examples.</span>
+                <span>CLI flags, config shape, supported inputs, and examples.</span>
               </a>
             </div>
           </article>
@@ -346,8 +347,8 @@ node ./dist/cli.js compare --config ./examples/openapi/mockdoctor.config.json</c
       <section class="section reveal" id="scope">
         <div class="scope-layout">
           <article class="scope-card positive">
-            <div class="eyebrow">What v0.1 does well</div>
-            <h2>Ship the narrow tool people can actually install.</h2>
+            <div class="eyebrow">Current scope</div>
+            <h2>Focused on one job: compare committed mocks to committed contracts.</h2>
             <ul>
               <li>ReadyAPI REST project XML and extracted service directories</li>
               <li>OpenAPI and repo-friendly JSON contracts</li>
@@ -357,8 +358,8 @@ node ./dist/cli.js compare --config ./examples/openapi/mockdoctor.config.json</c
           </article>
 
           <article class="scope-card neutral">
-            <div class="eyebrow">Current limits</div>
-            <h2>No fake promises in the release copy.</h2>
+            <div class="eyebrow">Known limits</div>
+            <h2>Small surface area, explicit tradeoffs.</h2>
             <ul>
               <li>REST only in `v0.1.0`</li>
               <li>Non-JSON bodies are compared by status code and media type only</li>
@@ -372,12 +373,12 @@ node ./dist/cli.js compare --config ./examples/openapi/mockdoctor.config.json</c
       <section class="section reveal" id="cta">
         <div class="cta-card">
           <div>
-            <div class="eyebrow">Launch kit</div>
-            <h2>Ship the repo, the release notes, and the article together.</h2>
+            <div class="eyebrow">Next step</div>
+            <h2>See the release, try the repo, or read the deeper write-up.</h2>
             <p>
-              The homepage should push people toward a concrete action. For MockDoctor, the best
-              actions are reading the release notes, trying the local demo, and opening the repo
-              while the value proposition is still fresh.
+              MockDoctor is small on purpose. Start with the release if you want scope and version
+              notes, open the repo if you want to run it, or read the article if you want the
+              background problem before installing anything.
             </p>
           </div>
 
@@ -385,7 +386,7 @@ node ./dist/cli.js compare --config ./examples/openapi/mockdoctor.config.json</c
             <a
               class="button primary"
               href="https://github.com/kumarsourav12/MockDoctor/releases/tag/v0.1.0"
-              >Read v0.1.0 notes</a
+              >Read the v0.1.0 release</a
             >
             <a class="button primary" href="https://github.com/kumarsourav12/MockDoctor"
               >Open the repository</a
@@ -393,7 +394,7 @@ node ./dist/cli.js compare --config ./examples/openapi/mockdoctor.config.json</c
             <a
               class="button secondary"
               href="https://github.com/kumarsourav12/MockDoctor/blob/main/docs/articles/why-readyapi-mocks-drift.md"
-              >Read the article</a
+              >Read the technical article</a
             >
           </div>
         </div>
@@ -401,7 +402,7 @@ node ./dist/cli.js compare --config ./examples/openapi/mockdoctor.config.json</c
     </main>
 
     <footer class="footer">
-      <p>MockDoctor presentation site. Built as a static GitHub Pages deployment from the repository.</p>
+      <p>MockDoctor. Compare ReadyAPI REST virtual services with OpenAPI or JSON contracts.</p>
     </footer>
   </body>
 </html>
