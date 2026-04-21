@@ -58,12 +58,19 @@
           <div class="hero-actions">
             <a class="button primary" href="#demo">See the drift demo</a>
             <a class="button secondary" href="https://github.com/kumarsourav12/MockDoctor"
-              >Open the repo</a
+              >Star on GitHub</a
+            >
+            <a
+              class="button secondary"
+              href="https://github.com/kumarsourav12/MockDoctor/blob/main/docs/launch/v0.1.0-release.md"
+              >Read v0.1.0 notes</a
             >
             <button
               class="button ghost"
               type="button"
-              data-copy-text="npx mockdoctor compare --readyapi ./readyapi-project.xml --openapi ./openapi.yaml"
+              data-copy-text="npm install
+npm run build
+node ./dist/cli.js compare --config ./examples/openapi/mockdoctor.config.json"
             >
               Copy quick start
             </button>
@@ -115,6 +122,55 @@ GET /api/orders/{id} | service=OrdersService
     ReadyAPI response OK Response does not match the contract schema.
       $.amount: must be integer</code></pre>
           </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="start">
+        <div class="section-heading">
+          <div class="eyebrow">Get started</div>
+          <h2>Show the tool fast, then give people a clean next step.</h2>
+          <p>
+            A good launch page should do three jobs in under a minute: explain the problem, prove
+            the tool works, and hand people the shortest realistic path to trying it.
+          </p>
+        </div>
+
+        <div class="start-grid">
+          <article class="start-card">
+            <div class="demo-kicker">Run locally</div>
+            <h3>Use the checked-in example.</h3>
+            <pre class="command-block"><code>npm install
+npm run build
+node ./dist/cli.js compare --config ./examples/openapi/mockdoctor.config.json</code></pre>
+            <p>
+              This is the shortest repo-local path that works today. No npm publish step required.
+            </p>
+          </article>
+
+          <article class="start-card">
+            <div class="demo-kicker">Read next</div>
+            <h3>Pick the link that matches intent.</h3>
+            <div class="link-stack">
+              <a class="resource-link" href="https://github.com/kumarsourav12/MockDoctor/releases">
+                <strong>Releases</strong>
+                <span>Use when someone wants versioned changes and install notes.</span>
+              </a>
+              <a
+                class="resource-link"
+                href="https://github.com/kumarsourav12/MockDoctor/blob/main/docs/articles/why-readyapi-mocks-drift.md"
+              >
+                <strong>Launch article</strong>
+                <span>Use when someone needs the problem explained before they install.</span>
+              </a>
+              <a
+                class="resource-link"
+                href="https://github.com/kumarsourav12/MockDoctor/blob/main/docs/configuration.md"
+              >
+                <strong>Configuration docs</strong>
+                <span>Use when someone already wants flags, config shape, and examples.</span>
+              </a>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -313,20 +369,28 @@ GET /api/orders/{id} | service=OrdersService
       <section class="section reveal" id="cta">
         <div class="cta-card">
           <div>
-            <div class="eyebrow">Ready to show it</div>
-            <h2>Use the site as a pitch deck, then hand people the repo.</h2>
+            <div class="eyebrow">Launch kit</div>
+            <h2>Ship the repo, the release notes, and the article together.</h2>
             <p>
-              The source for this presentation lives in `/site`, and the repo includes a GitHub Pages
-              workflow so the presentation can publish from `main` without touching the CLI build.
+              The homepage should push people toward a concrete action. For MockDoctor, the best
+              actions are reading the release notes, trying the local demo, and opening the repo
+              while the value proposition is still fresh.
             </p>
           </div>
 
           <div class="cta-actions">
-            <a class="button primary" href="https://github.com/kumarsourav12/MockDoctor"
-              >View the repository</a
+            <a
+              class="button primary"
+              href="https://github.com/kumarsourav12/MockDoctor/blob/main/docs/launch/v0.1.0-release.md"
+              >Read v0.1.0 notes</a
             >
-            <a class="button secondary" href="https://kumarsourav12.github.io/MockDoctor/"
-              >Open the Pages URL</a
+            <a class="button primary" href="https://github.com/kumarsourav12/MockDoctor"
+              >Open the repository</a
+            >
+            <a
+              class="button secondary"
+              href="https://github.com/kumarsourav12/MockDoctor/blob/main/docs/articles/why-readyapi-mocks-drift.md"
+              >Read the article</a
             >
           </div>
         </div>
