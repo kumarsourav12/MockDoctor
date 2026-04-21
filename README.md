@@ -171,6 +171,19 @@ npm run dev -- compare --config ./examples/json-contract/mockdoctor.config.json
 - [Release steps](./docs/releasing.md)
 - [Changelog](./CHANGELOG.md)
 
+## Presentation Site
+
+The repo now includes a standalone presentation site in [`/site`](./site).
+
+GitHub Pages target URL:
+
+- [kumarsourav12.github.io/MockDoctor](https://kumarsourav12.github.io/MockDoctor/)
+
+Deployment notes:
+
+- the Pages workflow lives in [`.github/workflows/pages.yml`](./.github/workflows/pages.yml)
+- GitHub’s current Pages docs say a repo admin or maintainer needs to set the Pages source to `GitHub Actions` in repository settings before the workflow can publish the site
+
 ## Local Verification
 
 ```bash
