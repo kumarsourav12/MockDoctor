@@ -6,8 +6,7 @@ Start here:
 
 - Demo site: [kumarsourav12.github.io/MockDoctor](https://kumarsourav12.github.io/MockDoctor/)
 - Latest release: [v0.1.0](https://github.com/kumarsourav12/MockDoctor/releases/tag/v0.1.0)
-- Launch article draft: [docs/articles/why-readyapi-mocks-drift.md](./docs/articles/why-readyapi-mocks-drift.md)
-- Distribution plan: [docs/launch/distribution-plan.md](./docs/launch/distribution-plan.md)
+- Technical article: [docs/articles/why-readyapi-mocks-drift.md](./docs/articles/why-readyapi-mocks-drift.md)
 
 `v0.1.0` is intentionally narrow:
 
@@ -174,9 +173,7 @@ npm run dev -- compare --config ./examples/json-contract/mockdoctor.config.json
 - [Configuration and CLI reference](./docs/configuration.md)
 - [Reporting and HTML artifacts](./docs/reporting.md)
 - [Architecture notes](./docs/architecture.md)
-- [v0.1.0 release notes draft](./docs/launch/v0.1.0-release.md)
-- [Launch article draft](./docs/articles/why-readyapi-mocks-drift.md)
-- [Distribution plan](./docs/launch/distribution-plan.md)
+- [Technical article](./docs/articles/why-readyapi-mocks-drift.md)
 - [Contributing](./CONTRIBUTING.md)
 - [Release steps](./docs/releasing.md)
 - [Changelog](./CHANGELOG.md)
