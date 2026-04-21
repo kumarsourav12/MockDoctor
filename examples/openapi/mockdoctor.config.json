@@ -1,0 +1,9 @@
+{
+  "readyapi": {
+    "path": "./readyapi-project.xml"
+  },
+  "contract": {
+    "openapi": "./openapi.yaml"
+  },
+  "format": "text"
+}

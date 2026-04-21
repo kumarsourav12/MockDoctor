@@ -1,0 +1,73 @@
+openapi: 3.0.3
+info:
+  title: Orders API
+  version: 1.0.0
+paths:
+  /api/orders/{id}:
+    get:
+      responses:
+        "200":
+          description: Order found
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [id, status, amount]
+                additionalProperties: false
+                properties:
+                  id: { type: string }
+                  status: { type: string }
+                  amount: { type: integer }
+        "404":
+          description: Order missing
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [error]
+                additionalProperties: false
+                properties:
+                  error: { type: string }
+  /api/orders:
+    get:
+      responses:
+        "200":
+          description: Orders list
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                additionalProperties: false
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      required: [id, status, amount]
+                      additionalProperties: false
+                      properties:
+                        id: { type: string }
+                        status: { type: string }
+                        amount: { type: integer }
+    post:
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [id]
+                additionalProperties: false
+                properties:
+                  id: { type: string }
+  /api/health:
+    get:
+      responses:
+        "200":
+          description: Health
+          content:
+            text/plain:
+              schema:
+                type: string

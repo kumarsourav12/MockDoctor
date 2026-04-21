@@ -1,0 +1,9 @@
+{
+  "readyapi": {
+    "path": "./readyapi-service"
+  },
+  "contract": {
+    "json": "./contract.json"
+  },
+  "format": "text"
+}

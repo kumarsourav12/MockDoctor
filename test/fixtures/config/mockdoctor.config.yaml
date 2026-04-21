@@ -1,0 +1,5 @@
+readyapi:
+  path: ../readyapi/OrdersService
+contract:
+  openapi: ../contracts/orders-openapi.yaml
+format: text

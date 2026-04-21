@@ -1,0 +1,75 @@
+{
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/api/orders/{id}",
+      "responses": {
+        "200": {
+          "contentType": "application/json",
+          "bodyExample": {
+            "id": "ord_123",
+            "status": "captured",
+            "amount": 99
+          }
+        },
+        "404": {
+          "contentType": "application/json",
+          "bodySchema": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["error"],
+            "properties": {
+              "error": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/orders",
+      "responses": {
+        "200": {
+          "contentType": "application/json",
+          "bodySchema": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["items"],
+            "properties": {
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["id", "status", "amount"],
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "amount": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/health",
+      "responses": {
+        "200": {
+          "contentType": "text/plain"
+        }
+      }
+    }
+  ]
+}

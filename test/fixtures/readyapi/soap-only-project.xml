@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project xmlns:con="http://eviware.com/soapui/config" name="SOAP Only Project">
+  <con:mockService name="LegacySoapService" host="localhost" port="8081" path="/soap"/>
+</con:soapui-project>

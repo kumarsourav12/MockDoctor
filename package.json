@@ -1,0 +1,50 @@
+{
+  "name": "mockdoctor",
+  "version": "0.1.0",
+  "description": "Compare virtual-service files against OpenAPI or JSON contracts.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "mockdoctor": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.json",
+    "check": "tsc --noEmit -p tsconfig.json",
+    "dev": "tsx src/cli.ts",
+    "prepublishOnly": "npm run test && npm run build",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "readyapi",
+    "virtual-service",
+    "virtualization",
+    "openapi",
+    "contract",
+    "comparison",
+    "cli"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@apidevtools/swagger-parser": "^12.1.0",
+    "ajv": "^8.18.0",
+    "commander": "^13.1.0",
+    "fast-glob": "^3.3.3",
+    "fast-xml-parser": "^5.7.1",
+    "yaml": "^2.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}

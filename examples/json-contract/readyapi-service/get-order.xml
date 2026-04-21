@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:restMockAction xmlns:con="http://eviware.com/soapui/config" name="getOrder" method="GET" resourcePath="/orders/{id}">
+  <con:response name="OK Response" httpResponseStatus="200" mediaType="application/json">
+    <con:responseContent><![CDATA[{"id":"ord_123","status":"captured","amount":99}]]></con:responseContent>
+  </con:response>
+  <con:response name="Not Found" httpResponseStatus="404" mediaType="application/json">
+    <con:responseContent><![CDATA[{"error":"Order not found"}]]></con:responseContent>
+  </con:response>
+</con:restMockAction>

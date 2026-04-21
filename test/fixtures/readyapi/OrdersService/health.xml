@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:restMockAction xmlns:con="http://eviware.com/soapui/config" name="health" method="GET" resourcePath="/health">
+  <con:response name="OK Response" httpResponseStatus="200" mediaType="text/plain">
+    <con:responseContent><![CDATA[ok]]></con:responseContent>
+  </con:response>
+</con:restMockAction>

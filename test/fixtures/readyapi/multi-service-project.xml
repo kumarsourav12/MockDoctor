@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project xmlns:con="http://eviware.com/soapui/config" name="Multi Service Project">
+  <con:restMockService name="OrdersService" host="localhost" port="8080" path="/api">
+    <con:restMockAction name="getOrder" method="GET" resourcePath="/orders/{id}">
+      <con:response name="OK Response" httpResponseStatus="200" mediaType="application/json">
+        <con:responseContent><![CDATA[{"id":"ord_123","status":"captured","amount":99}]]></con:responseContent>
+      </con:response>
+    </con:restMockAction>
+  </con:restMockService>
+  <con:restMockService name="BillingService" host="localhost" port="9090" path="/billing">
+    <con:restMockAction name="ping" method="GET" resourcePath="/ping">
+      <con:response name="OK Response" httpResponseStatus="200" mediaType="application/json">
+        <con:responseContent><![CDATA[{"ok":true}]]></con:responseContent>
+      </con:response>
+    </con:restMockAction>
+  </con:restMockService>
+</con:soapui-project>

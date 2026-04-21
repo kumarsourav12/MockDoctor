@@ -1,0 +1,61 @@
+openapi: 3.0.3
+info:
+  title: Orders Example API
+  version: 1.0.0
+paths:
+  /api/orders/{id}:
+    get:
+      responses:
+        "200":
+          description: Order found
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [id, status, amount]
+                properties:
+                  id: { type: string }
+                  status: { type: string }
+                  amount: { type: integer }
+        "404":
+          description: Order missing
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [error]
+                properties:
+                  error: { type: string }
+  /api/orders:
+    get:
+      responses:
+        "200":
+          description: Orders list
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: false
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: false
+                      required: [id, status, amount]
+                      properties:
+                        id: { type: string }
+                        status: { type: string }
+                        amount: { type: integer }
+  /api/health:
+    get:
+      responses:
+        "200":
+          description: Health
+          content:
+            text/plain:
+              schema:
+                type: string

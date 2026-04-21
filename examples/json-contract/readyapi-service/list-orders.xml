@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:restMockAction xmlns:con="http://eviware.com/soapui/config" name="listOrders" method="GET" resourcePath="/orders">
+  <con:response name="OK Response" httpResponseStatus="200" mediaType="application/json">
+    <con:responseContent><![CDATA[{"items":[{"id":"ord_123","status":"captured","amount":99}]}]]></con:responseContent>
+  </con:response>
+</con:restMockAction>
