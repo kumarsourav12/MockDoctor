@@ -2,6 +2,13 @@
 
 MockDoctor compares ReadyAPI REST virtual-service files with an OpenAPI spec or a JSON contract and flags drift before stale mocks leak into tests or CI.
 
+Start here:
+
+- Demo site: [kumarsourav12.github.io/MockDoctor](https://kumarsourav12.github.io/MockDoctor/)
+- Release notes draft: [docs/launch/v0.1.0-release.md](./docs/launch/v0.1.0-release.md)
+- Launch article draft: [docs/articles/why-readyapi-mocks-drift.md](./docs/articles/why-readyapi-mocks-drift.md)
+- Distribution plan: [docs/launch/distribution-plan.md](./docs/launch/distribution-plan.md)
+
 `v0.1.0` is intentionally narrow:
 
 - ReadyAPI REST inputs only
@@ -167,6 +174,9 @@ npm run dev -- compare --config ./examples/json-contract/mockdoctor.config.json
 - [Configuration and CLI reference](./docs/configuration.md)
 - [Reporting and HTML artifacts](./docs/reporting.md)
 - [Architecture notes](./docs/architecture.md)
+- [v0.1.0 release notes draft](./docs/launch/v0.1.0-release.md)
+- [Launch article draft](./docs/articles/why-readyapi-mocks-drift.md)
+- [Distribution plan](./docs/launch/distribution-plan.md)
 - [Contributing](./CONTRIBUTING.md)
 - [Release steps](./docs/releasing.md)
 - [Changelog](./CHANGELOG.md)

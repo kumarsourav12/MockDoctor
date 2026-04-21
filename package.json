@@ -29,6 +29,14 @@
     "comparison",
     "cli"
   ],
+  "homepage": "https://kumarsourav12.github.io/MockDoctor/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kumarsourav12/MockDoctor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kumarsourav12/MockDoctor/issues"
+  },
   "license": "MIT",
   "engines": {
     "node": ">=18"
