@@ -76,6 +76,21 @@ mockdoctor compare --readyapi <path> --openapi <path>
 mockdoctor compare --readyapi <path> --contract <path>
 ```
 
+## GitHub Action
+
+MockDoctor also ships as a GitHub Action:
+
+```yaml
+- uses: kumarsourav12/MockDoctor@main
+  with:
+    readyapi: ./readyapi-project.xml
+    openapi: ./openapi.yaml
+```
+
+If you want to collect drift without failing the workflow, set `fail-on-drift: false`.
+
+If you write an HTML report, you can upload it as an artifact in a later step.
+
 Flags:
 
 | Flag | Meaning |
@@ -170,6 +185,7 @@ npm run dev -- compare --config ./examples/json-contract/mockdoctor.config.json
 ## Documentation
 
 - [Configuration and CLI reference](./docs/configuration.md)
+- [GitHub Action usage](./docs/github-action.md)
 - [Reporting and HTML artifacts](./docs/reporting.md)
 - [Architecture notes](./docs/architecture.md)
 - [Contributing](./CONTRIBUTING.md)

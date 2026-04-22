@@ -66,3 +66,39 @@ jobs:
             echo "- OpenAPI example: \`npm run dev -- compare --config ./examples/openapi/mockdoctor.config.json\`"
             echo "- JSON contract example: \`npm run dev -- compare --config ./examples/json-contract/mockdoctor.config.json\`"
           } >> "$GITHUB_STEP_SUMMARY"
+
+  action-smoke:
+    name: GitHub Action smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run action against matching contract
+        id: matching
+        uses: ./
+        with:
+          readyapi: ./test/fixtures/readyapi/orders-project.xml
+          openapi: ./test/fixtures/contracts/orders-openapi-renamed-path-params.yaml
+
+      - name: Verify matching outputs
+        run: |
+          test "${{ steps.matching.outputs.drift-detected }}" = "false"
+          test "${{ steps.matching.outputs.issues-count }}" = "0"
+
+      - name: Run action against drift fixture without failing workflow
+        id: drift
+        uses: ./
+        with:
+          readyapi: ./test/fixtures/readyapi/orders-project-schema-drift.xml
+          openapi: ./test/fixtures/contracts/orders-openapi.yaml
+          html-report: ./artifacts/mockdoctor-drift.html
+          fail-on-drift: false
+
+      - name: Verify drift outputs
+        run: |
+          test "${{ steps.drift.outputs.drift-detected }}" = "true"
+          test "${{ steps.drift.outputs.issues-count }}" = "1"
+          test -f "${{ steps.drift.outputs.html-report-path }}"
