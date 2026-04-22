@@ -2,7 +2,8 @@ import { appendFile, readFile } from "node:fs/promises";
 import path from "node:path";
 import { formatJsonReport, formatTextReport, writeHtmlReport } from "./report.js";
 import { runCompareWithConfig } from "./run.js";
-import { postTelemetry } from "./telemetry.js";
+import { DEFAULT_TELEMETRY_ENDPOINT } from "./telemetry-config.js";
+import { sendActionTelemetry } from "./usage-telemetry.js";
 import type { CliOptions, ComparisonIssue, ComparisonResult } from "./types.js";
 
 type ActionEnv = Record<string, string | undefined>;
@@ -19,8 +20,8 @@ type ActionContext = {
 
 type ActionDependencies = {
   getVersion(): Promise<string>;
-  postTelemetry: typeof postTelemetry;
   runCompareWithConfig: typeof runCompareWithConfig;
+  sendActionTelemetry: typeof sendActionTelemetry;
   writeHtmlReport: typeof writeHtmlReport;
 };
 
@@ -73,8 +74,8 @@ const defaultDependencies: ActionDependencies = {
     const parsed = JSON.parse(raw) as { version?: string };
     return parsed.version ?? "unknown";
   },
-  postTelemetry,
   runCompareWithConfig,
+  sendActionTelemetry,
   writeHtmlReport
 };
 
@@ -105,12 +106,21 @@ export async function runGitHubAction(
     await writeOutputs(context, result, htmlReportPath);
     await context.appendSummary(buildSummary(result, htmlReportPath));
 
-    await sendActionTelemetry(dependencies, context, {
-      endpoint: input.telemetryEndpoint,
+    await trySendActionTelemetry(dependencies, context, {
+      defaultEndpoint: DEFAULT_TELEMETRY_ENDPOINT,
       env,
       event: "compare.completed",
+      explicitEndpoint: input.telemetryEndpoint,
+      explicitToken: input.telemetryToken,
       result,
-      token: input.telemetryToken,
+      telemetryContext: {
+        actionRepository: env.GITHUB_ACTION_REPOSITORY,
+        explicitReadyApiPathProvided: Boolean(readOptional(env.MOCKDOCTOR_READYAPI)),
+        ref: env.GITHUB_REF,
+        repository: env.GITHUB_REPOSITORY,
+        runId: env.GITHUB_RUN_ID,
+        runnerOs: env.RUNNER_OS
+      },
       version
     });
 
@@ -121,12 +131,21 @@ export async function runGitHubAction(
     context.stderr(`MockDoctor action failed: ${message}\n`);
     await context.appendSummary(`## MockDoctor failed\n\n${message}\n`);
 
-    await sendActionTelemetry(dependencies, context, {
-      endpoint: input.telemetryEndpoint,
+    await trySendActionTelemetry(dependencies, context, {
+      defaultEndpoint: DEFAULT_TELEMETRY_ENDPOINT,
       env,
       errorMessage: message,
       event: "compare.failed",
-      token: input.telemetryToken,
+      explicitEndpoint: input.telemetryEndpoint,
+      explicitToken: input.telemetryToken,
+      telemetryContext: {
+        actionRepository: env.GITHUB_ACTION_REPOSITORY,
+        explicitReadyApiPathProvided: Boolean(readOptional(env.MOCKDOCTOR_READYAPI)),
+        ref: env.GITHUB_REF,
+        repository: env.GITHUB_REPOSITORY,
+        runId: env.GITHUB_RUN_ID,
+        runnerOs: env.RUNNER_OS
+      },
       version
     });
 
@@ -275,48 +294,40 @@ function buildIssueSummary(issue: ComparisonIssue): string {
   return `${labelParts.join(" | ")} — ${issue.message}`;
 }
 
-async function sendActionTelemetry(
+async function trySendActionTelemetry(
   dependencies: ActionDependencies,
   context: ActionContext,
   options: {
-    endpoint?: string;
+    defaultEndpoint?: string;
     env: ActionEnv;
     errorMessage?: string;
     event: "compare.completed" | "compare.failed";
+    explicitEndpoint?: string;
+    explicitToken?: string;
     result?: ComparisonResult;
-    token?: string;
+    telemetryContext: {
+      actionRepository?: string;
+      explicitReadyApiPathProvided: boolean;
+      ref?: string;
+      repository?: string;
+      runId?: string;
+      runnerOs?: string;
+    };
     version: string;
   }
 ): Promise<void> {
-  if (!options.endpoint) {
-    return;
-  }
-
   try {
-    await dependencies.postTelemetry(
-      options.endpoint,
-      {
-        actionRepository: options.env.GITHUB_ACTION_REPOSITORY,
-        contractType: options.result?.contractType,
-        driftDetected: options.result ? options.result.issues.length > 0 : undefined,
-        errorMessage: options.errorMessage,
-        event: options.event,
-        issuesCount: options.result?.issues.length,
-        operationsChecked: options.result?.operationsChecked,
-        readyApiPathProvided: Boolean(readOptional(options.env.MOCKDOCTOR_READYAPI)),
-        ref: options.env.GITHUB_REF,
-        repository: options.env.GITHUB_REPOSITORY,
-        responsesChecked: options.result?.responsesChecked,
-        runnerOs: options.env.RUNNER_OS,
-        runId: options.env.GITHUB_RUN_ID,
-        servicesChecked: options.result?.servicesChecked,
-        source: "github-action",
-        timestamp: new Date().toISOString(),
-        tool: "mockdoctor",
-        version: options.version
-      },
-      options.token
-    );
+    await dependencies.sendActionTelemetry({
+      context: options.telemetryContext,
+      defaultEndpoint: options.defaultEndpoint,
+      env: options.env,
+      errorMessage: options.errorMessage,
+      event: options.event,
+      explicitEndpoint: options.explicitEndpoint,
+      explicitToken: options.explicitToken,
+      result: options.result,
+      version: options.version
+    });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     context.warn(`MockDoctor telemetry warning: ${message}`);

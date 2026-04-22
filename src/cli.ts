@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
-import { formatJsonReport, formatTextReport, writeHtmlReport } from "./report.js";
-import { runCompareWithConfig } from "./run.js";
+import { runCliCommand } from "./cli-runner.js";
 import type { CliOptions } from "./types.js";
 
 const program = new Command();
@@ -24,24 +23,7 @@ program
   .option("--format <format>", "Output format: text or json")
   .action(async (_value, command: Command) => {
     const options = command.opts() as CliOptions;
-
-    try {
-      const { config, result } = await runCompareWithConfig(options);
-      const report = config.format === "json" ? formatJsonReport(result) : formatTextReport(result);
-
-      process.stdout.write(`${report}\n`);
-
-      if (config.htmlReportPath && result.issues.length > 0) {
-        await writeHtmlReport(result, config.htmlReportPath);
-        process.stderr.write(`MockDoctor wrote HTML report to ${config.htmlReportPath}\n`);
-      }
-
-      process.exitCode = result.issues.length > 0 ? 1 : 0;
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      process.stderr.write(`MockDoctor failed: ${message}\n`);
-      process.exitCode = 1;
-    }
+    process.exitCode = await runCliCommand(options);
   });
 
 await program.parseAsync(process.argv);

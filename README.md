@@ -91,6 +91,20 @@ If you want to collect drift without failing the workflow, set `fail-on-drift: f
 
 If you write an HTML report, you can upload it as an artifact in a later step.
 
+## Telemetry
+
+MockDoctor supports coarse usage telemetry for both the CLI and the GitHub Action.
+
+It does not send ReadyAPI files, OpenAPI files, JSON contracts, response bodies, or HTML report contents.
+
+If you want telemetry enabled by default for published builds, set the default endpoint in [`src/telemetry-config.ts`](./src/telemetry-config.ts).
+
+Users can disable telemetry with:
+
+```bash
+MOCKDOCTOR_DISABLE_TELEMETRY=1
+```
+
 Flags:
 
 | Flag | Meaning |
@@ -186,6 +200,7 @@ npm run dev -- compare --config ./examples/json-contract/mockdoctor.config.json
 
 - [Configuration and CLI reference](./docs/configuration.md)
 - [GitHub Action usage](./docs/github-action.md)
+- [Telemetry](./docs/telemetry.md)
 - [Cloudflare telemetry receiver](./telemetry/cloudflare-worker/README.md)
 - [Reporting and HTML artifacts](./docs/reporting.md)
 - [Architecture notes](./docs/architecture.md)

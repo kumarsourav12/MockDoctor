@@ -43,8 +43,8 @@ If MockDoctor finds drift, the action fails the step by default.
 | `html-report` | No | Writes an HTML report when drift is found |
 | `working-directory` | No | Directory in the caller repository where MockDoctor should run. Default is `.` |
 | `fail-on-drift` | No | Set to `false` to keep the workflow green when drift is found |
-| `telemetry-endpoint` | No | Optional HTTPS endpoint that receives one JSON usage event per action run |
-| `telemetry-token` | No | Optional bearer token for the telemetry endpoint |
+| `telemetry-endpoint` | No | HTTPS endpoint to override the default telemetry receiver for this action run |
+| `telemetry-token` | No | Bearer token to override the default telemetry token for this action run |
 
 Choose either `openapi` or `contract`. Do not pass both unless `config` already narrows it down to one.
 
@@ -97,11 +97,17 @@ That step still reports the drift, writes the HTML report, and exposes outputs y
     path: ${{ steps.mockdoctor.outputs.html-report-path }}
 ```
 
-## Opt-in telemetry
+## Telemetry
 
-MockDoctor does not send usage data unless you set `telemetry-endpoint`.
+The GitHub Action can send one telemetry event per run.
 
-If you do set it, the action sends one JSON `POST` per run. The payload includes:
+It resolves the endpoint in this order:
+
+1. `telemetry-endpoint`
+2. `MOCKDOCTOR_TELEMETRY_ENDPOINT`
+3. the built-in default endpoint in `src/telemetry-config.ts`
+
+It sends coarse metadata such as:
 
 - MockDoctor version
 - event name
@@ -115,6 +121,13 @@ If you do set it, the action sends one JSON `POST` per run. The payload includes
 - service, operation, and response counts
 
 It does not send contract files, mock response bodies, or HTML report contents.
+
+If you need to disable telemetry completely, set:
+
+```yaml
+env:
+  MOCKDOCTOR_DISABLE_TELEMETRY: "1"
+```
 
 If the telemetry call fails, MockDoctor writes a warning to the action log and continues.
 
