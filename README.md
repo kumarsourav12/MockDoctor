@@ -186,6 +186,7 @@ npm run dev -- compare --config ./examples/json-contract/mockdoctor.config.json
 
 - [Configuration and CLI reference](./docs/configuration.md)
 - [GitHub Action usage](./docs/github-action.md)
+- [Cloudflare telemetry receiver](./telemetry/cloudflare-worker/README.md)
 - [Reporting and HTML artifacts](./docs/reporting.md)
 - [Architecture notes](./docs/architecture.md)
 - [Contributing](./CONTRIBUTING.md)

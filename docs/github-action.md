@@ -117,3 +117,7 @@ If you do set it, the action sends one JSON `POST` per run. The payload includes
 It does not send contract files, mock response bodies, or HTML report contents.
 
 If the telemetry call fails, MockDoctor writes a warning to the action log and continues.
+
+This repo also includes a Cloudflare Worker example you can deploy as the telemetry receiver:
+
+- [telemetry/cloudflare-worker](../telemetry/cloudflare-worker/README.md)

@@ -1,0 +1,11 @@
+{
+  "name": "mockdoctor-telemetry",
+  "main": "./src/index.js",
+  "compatibility_date": "2026-04-22",
+  "analytics_engine_datasets": [
+    {
+      "binding": "MOCKDOCTOR_USAGE",
+      "dataset": "mockdoctor_usage"
+    }
+  ]
+}
