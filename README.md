@@ -11,7 +11,7 @@ Start here:
 
 - ReadyAPI REST inputs only
 - OpenAPI or JSON contract inputs
-- comparison by `METHOD + path`
+- comparison by `METHOD + path`, with path parameter names normalized
 - response status, media type, and JSON body validation
 
 It does not execute ReadyAPI dispatch scripts or simulate runtime behavior. It reads the files you commit, normalizes them, and reports where they no longer match the contract you expect.
@@ -66,7 +66,7 @@ Current limits:
 
 - REST virtual services only in `v0.1.0`
 - non-JSON response bodies are compared by status code and media type only
-- path matching is normalized literal matching only; there is no extra route-template inference
+- `{id}` and `{orderId}` are treated as the same path parameter, but `:id` is still a different route shape
 - if the input only contains SOAP mock services, MockDoctor fails with a REST-only message
 
 ## CLI

@@ -1,3 +1,4 @@
+import { buildComparisonKey } from "./openapi.js";
 import { validateSchemaValue } from "./schema.js";
 import type {
   ComparisonIssue,
@@ -25,12 +26,19 @@ export function compareBundles(
     service.operations.map((operation) => ({ operation, service }))
   );
   const contractOperationMap = new Map(
-    contract.operations.map((operation) => [operation.key, operation] as const)
+    contract.operations.map((operation) => [
+      buildComparisonKey(operation.method, operation.path),
+      operation
+    ] as const)
   );
   const matchedOperationKeys = new Set<string>();
 
   for (const readyContext of readyOperations) {
-    const contractOperation = contractOperationMap.get(readyContext.operation.key);
+    const comparisonKey = buildComparisonKey(
+      readyContext.operation.method,
+      readyContext.operation.path
+    );
+    const contractOperation = contractOperationMap.get(comparisonKey);
 
     if (!contractOperation) {
       issues.push({
@@ -46,12 +54,12 @@ export function compareBundles(
       continue;
     }
 
-    matchedOperationKeys.add(readyContext.operation.key);
+    matchedOperationKeys.add(comparisonKey);
     compareOperationResponses(readyContext, contractOperation, contract.sourcePath, issues);
   }
 
   for (const contractOperation of contract.operations) {
-    if (matchedOperationKeys.has(contractOperation.key)) {
+    if (matchedOperationKeys.has(buildComparisonKey(contractOperation.method, contractOperation.path))) {
       continue;
     }
 

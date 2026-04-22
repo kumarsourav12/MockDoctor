@@ -1,6 +1,7 @@
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { loadReadyApiBundle } from "../src/readyapi.js";
+import { buildComparisonKey } from "../src/openapi.js";
 import { runCompare } from "../src/run.js";
 
 const fixturesDir = path.resolve("test/fixtures");
@@ -16,6 +17,10 @@ const serviceDir = path.join(readyApiDir, "OrdersService");
 const configPath = path.join(fixturesDir, "config", "mockdoctor.config.yaml");
 
 const matchingOpenApi = path.join(contractDir, "orders-openapi.yaml");
+const renamedPathParamsOpenApi = path.join(
+  contractDir,
+  "orders-openapi-renamed-path-params.yaml"
+);
 const extraOperationOpenApi = path.join(contractDir, "orders-openapi-extra-operation.yaml");
 const missingContractOperationOpenApi = path.join(contractDir, "orders-openapi-without-health.yaml");
 const missingContractResponseOpenApi = path.join(contractDir, "orders-openapi-without-404.yaml");
@@ -73,6 +78,15 @@ describe("MockDoctor", () => {
     expect(result.servicesChecked).toBe(1);
     expect(result.operationsChecked).toBe(3);
     expect(result.responsesChecked).toBe(4);
+  });
+
+  it("matches paths when template parameter names differ", async () => {
+    const result = await runCompare({
+      openapi: renamedPathParamsOpenApi,
+      readyapi: ordersProject
+    });
+
+    expect(result.issues).toEqual([]);
   });
 
   it("reports operations missing in ReadyAPI when the contract adds one", async () => {
@@ -203,5 +217,14 @@ describe("MockDoctor", () => {
     expect(result.issues).toEqual([]);
     expect(result.readyApiPath).toBe(path.join(fixturesDir, "readyapi", "OrdersService"));
     expect(result.contractPath).toBe(path.join(contractDir, "orders-openapi.yaml"));
+  });
+
+  it("normalizes nested template parameter names for comparison", () => {
+    expect(buildComparisonKey("get", "/users/{userId}/orders/{orderId}/")).toBe(
+      "GET /users/{}/orders/{}"
+    );
+    expect(buildComparisonKey("GET", "/users/{id}/orders/{id}")).toBe(
+      "GET /users/{}/orders/{}"
+    );
   });
 });

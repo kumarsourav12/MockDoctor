@@ -28,7 +28,7 @@ Both the ReadyAPI side and the contract side end up as operations keyed by:
 METHOD /normalized/path
 ```
 
-That is the matching key used during comparison.
+That is the display shape used in reports. For matching, MockDoctor also builds a comparison key that normalizes brace-style path parameter names by position. That lets `/orders/{id}` match `/orders/{orderId}` without rewriting the original path shown to the user.
 
 Each normalized operation contains:
 
@@ -86,6 +86,6 @@ Not included:
 - dispatch scripts
 - data sources
 - behavioral simulation
-- non-literal route matching
+- non-brace route syntaxes such as `:id`
 
 Those limits are part of the design, not an omission in the docs. MockDoctor reads committed files and checks them against a contract. That is the job.

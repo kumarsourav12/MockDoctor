@@ -93,6 +93,10 @@ export function buildOperationKey(method: string, pathName: string): string {
   return `${method.toUpperCase()} ${normalizePath(pathName)}`;
 }
 
+export function buildComparisonKey(method: string, pathName: string): string {
+  return `${method.toUpperCase()} ${normalizeComparisonPath(pathName)}`;
+}
+
 export function normalizePath(pathName: string): string {
   if (pathName.length === 0) {
     return "/";
@@ -104,6 +108,10 @@ export function normalizePath(pathName: string): string {
   }
 
   return withLeadingSlash;
+}
+
+export function normalizeComparisonPath(pathName: string): string {
+  return normalizePath(pathName).replace(/\{[^/{}]+\}/g, "{}");
 }
 
 function normalizeStatusCode(statusCode: string): string {

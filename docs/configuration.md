@@ -174,13 +174,15 @@ Response definition rules:
 
 ## Path Matching
 
-Operation matching is literal after path normalization:
+Operation matching is template-aware for brace-style path parameters:
 
 - missing leading slashes are added
 - trailing slashes are removed unless the path is `/`
-- no extra route-template inference happens beyond that normalization
+- brace-style path parameters are normalized by position, not by name
 
-`GET /orders/{id}` and `GET /orders/:id` are different paths to MockDoctor.
+That means `GET /orders/{id}` and `GET /orders/{orderId}` match.
+
+`GET /orders/{id}` and `GET /orders/:id` are still different paths to MockDoctor.
 
 ## Common Errors
 
